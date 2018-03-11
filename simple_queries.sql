@@ -20,3 +20,10 @@ SELECT supplierid, contactname, contacttitle FROM suppliers WHERE contacttitle !
 SELECT productid, productname FROM products WHERE productname LIKE 'Queso%';
 
 --Write a query that shows the OrderId, CustomerID, and Ship Country for the orders where the ShipCountry is either France Or Belgium
+SELECT orderid, customerid, shipcountry FROM orders WHERE shipcountry='France' OR shipcountry='Belgium';
+
+--Write a query that shows the OrderId, CustomerID, and Ship Country for the orders where the ShipCountry is in South America
+SELECT orderid, customerid, shipcountry FROM orders WHERE shipcountry in ('Brazil', 'Mexico', 'Argentina', 'Venezuela');
+
+--Write a query that returns employees in order of their age
+SELECT firstname, lastname, title, birthdate FROM employees ORDER BY birthdate;
