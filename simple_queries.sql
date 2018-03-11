@@ -28,5 +28,20 @@ SELECT orderid, customerid, shipcountry FROM orders WHERE shipcountry in ('Brazi
 --Write a query that returns employees in order of their age
 SELECT firstname, lastname, title, birthdate FROM employees ORDER BY birthdate;
 
---Write a query that returns first name, last name, and a new colmn of full name for each employee;
+--Write a query that returns first name, last name, and a new colmn of full name for each employee
 SELECT firstname, lastname, CONCAT(firstname, ' ', lastname) AS fullname FROM employees;
+
+--Write a query that returns orderid, productid, unitprice, quantity and new column totalprice for orderdetails sorted by orderid and productid
+SELECT orderid, productid, unitprice, quantity, (unitprice * quantity) AS totalprice FROM order_details ORDER BY orderid ASC, productid;
+
+--What is the total number of customers?
+SELECT COUNT(customerid) FROM customers;
+
+--When was the first order?
+SELECT MIN(orderdate) FROM orders;
+
+--Show a list of countries where Northwind company has customers
+SELECT DISTINCT country from customers;
+
+--Show a list of all the different values in the Customers table for ContactTitles. Also include a count for each ContactTitle
+SELECT DISTINCT contacttitle, COUNT(contacttitle) as totalcontacttitle FROM customers GROUP BY contacttitle ORDER BY totalcontacttitle DESC;
