@@ -45,3 +45,20 @@ SELECT DISTINCT country from customers;
 
 --Show a list of all the different values in the Customers table for ContactTitles. Also include a count for each ContactTitle
 SELECT DISTINCT contacttitle, COUNT(contacttitle) as totalcontacttitle FROM customers GROUP BY contacttitle ORDER BY totalcontacttitle DESC;
+
+
+--Show the productid, productname, for each product, and the company name of the associated Supplier, sorting by the productid
+SELECT products.productid, products.productname, suppliers.companyname
+FROM products
+JOIN suppliers
+ON products.supplierid = suppliers.supplierid
+ORDER BY products.productid;
+
+--Show a list of orders that were made, including the Shipper that was used. Show only the OrderID, OrderDate (date only), and CompanyName of the Shipper and sort by OrderID. Select only orders with ORDER ID < 10300
+
+SELECT orders.orderid, orders.orderdate, shippers.companyname
+FROM orders
+JOIN shippers
+ON orders.shipvia = shippers.shipperid
+WHERE orders.orderid < 10300
+ORDER BY orders.orderid;
