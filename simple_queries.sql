@@ -27,3 +27,6 @@ SELECT orderid, customerid, shipcountry FROM orders WHERE shipcountry in ('Brazi
 
 --Write a query that returns employees in order of their age
 SELECT firstname, lastname, title, birthdate FROM employees ORDER BY birthdate;
+
+--Write a query that returns first name, last name, and a new colmn of full name for each employee;
+SELECT firstname, lastname, CONCAT(firstname, ' ', lastname) AS fullname FROM employees;
