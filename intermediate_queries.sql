@@ -53,16 +53,8 @@ GROUP BY orders.shipcountry
 ORDER BY freight DESC
 LIMIT 10;
 
--- -- Return the top three ship countries with the highest average freigh charges using the last 12 months of order data
---
--- SELECT orders.shipcountry, AVG(orders.freight) as freight, MAX(orders.orderdate) as latest
--- FROM orders
--- HAVING orders.orderdate > latest - interval '1 year'
--- GROUP BY orders.shipcountry
--- ORDER BY freight DESC
--- LIMIT 3;
 
--- Return an inventory list with employeeid, lastname, orderid, productname and quantity
+-- Return an inventory list with employeeid, lastname, orderid, productname and quantity. Requires 4 joins.
 
 SELECT orders.employeeid, employees.lastname, orders.orderid, products.productname, order_details.quantity
 FROM orders
@@ -70,3 +62,19 @@ JOIN employees ON orders.employeeid = employees.employeeid
 JOIN order_details ON orders.orderid = order_details.orderid
 JOIN products ON order_details.productid = products.productid
 ORDER BY orders.orderid, products.productid;
+
+
+--Return the customers that have never placed an order
+
+SELECT customers.customerid, orders.customerid
+FROM customers
+LEFT OUTER JOIN orders ON customers.customerid = orders.customerid
+WHERE orders.customerid is null;
+
+
+-- Return the customers who have never placed an order with employee id 4
+
+SELECT customers.customerid, orders.customerid
+FROM customers
+LEFT JOIN orders ON orders.customerid = customers.customerid
+WHERE orders.employeeid = 4 AND orders.customerid is null;
