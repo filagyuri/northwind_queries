@@ -194,3 +194,14 @@ FULL JOIN countries ON suppliers.country = countries.country
 FULL JOIN customers ON customers.country = countries.country
 GROUP BY countries.country
 ORDER BY countries.country;
+
+--First order in each country
+--Show deatils for eahc order that was the first in that particular country, ordered by order id
+WITH ordersbycountry AS (
+  SELECT orders.shipcountry, orders.customerid, orders.orderid, orders.orderdate, ROW_NUMBER() over (PARTITION BY orders.shipcountry ORDER BY orders.shipcountry, orders.orderid) as rownumberpercountry
+  FROM orders)
+
+SELECT shipcountry, customerid, orderid, orderdate
+FROM ordersbycountry
+WHERE rownumberpercountry = 1
+ORDER BY shipcountry;
