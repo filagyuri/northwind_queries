@@ -166,3 +166,18 @@ SELECT customergroups.group, count(customergroups.group) as totalingroup, count(
 FROM customergroups
 GROUP BY customergroups.group
 ORDER BY totalingroup DESC;
+
+--Countries with suppliers or customers
+-- list all the countries where suppliers or customers are based
+SELECT country FROM suppliers
+UNION
+SELECT country FROM customers
+ORDER BY country;
+
+--Countries with suppliers or customers, where null is inputed if no customer or supplier exists
+SELECT DISTINCT suppliers.country as suppliercountry, customers.country as customercountry
+FROM suppliers
+FULL OUTER JOIN customers ON customers.country = suppliers.country;
+
+
+--Countries with supploers or customers and a count of total suppliers and total customers
