@@ -32,3 +32,10 @@ JOIN order_details ON order_details.orderid = orders.orderid
 GROUP BY orders.orderid
 ORDER BY totalorderdetails DESC
 LIMIT 10;
+
+--Orders - random assortment
+--Show a random set of 2% of the orders
+SELECT orders.orderid
+FROM orders
+ORDER BY RANDOM()
+LIMIT 17;
