@@ -84,3 +84,18 @@ FROM orders
 JOIN employees ON employees.employeeid = orders.employeeid
 GROUP BY orders.employeeid, employees.lastname
 ORDER BY employeeid;
+
+--Late orders vs total orders as a percentlateorders
+SELECT orders.employeeid, employees.lastname, count(*) as allorders, sum(case when orders.shippeddate >= orders.requireddate then 1 else 0 end) as lateorders, sum(case when orders.shippeddate >= orders.requireddate then 1 else 0 end) / count(*)::numeric as percentlateorders
+FROM orders
+JOIN employees ON employees.employeeid = orders.employeeid
+GROUP BY orders.employeeid, employees.lastname
+ORDER BY employeeid;
+
+
+--Late orders vs total orders as a percentlateorders rounded to 2 places
+SELECT orders.employeeid, employees.lastname, count(*) as allorders, sum(case when orders.shippeddate >= orders.requireddate then 1 else 0 end) as lateorders, ROUND(sum(case when orders.shippeddate >= orders.requireddate then 1 else 0 end) / count(*)::numeric,2) as percentlateorders
+FROM orders
+JOIN employees ON employees.employeeid = orders.employeeid
+GROUP BY orders.employeeid, employees.lastname
+ORDER BY employeeid;
