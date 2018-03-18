@@ -11,3 +11,11 @@ SELECT customers.country, customers.city, COUNT(customers.city) AS TotalCustomer
 FROM customers
 GROUP BY customers.country, customers.city
 ORDER BY TotalCustomer DESC;
+
+
+--Reorder Products where Units in Stock is less that reorder level
+
+SELECT products.productid, products.productname, products.unitsinstock, products.reorderlevel
+FROM products
+WHERE products.unitsinstock < products.reorderlevel
+ORDER BY products.productid ASC;
