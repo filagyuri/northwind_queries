@@ -36,10 +36,37 @@ SELECT customers.customerid, customers.companyname, customers.region,
 FROM customers
 ORDER BY customers.region, customers.customerid;
 
---Return the three top contries with the highest average freight overall, in descending order by average freight from the orders table
+--Return the top three contries with the highest average freight overall, in descending order by average freight from the orders table
 
 SELECT orders.shipcountry, AVG(orders.freight) as freight
 FROM orders
 GROUP BY orders.shipcountry
 ORDER BY freight DESC
 LIMIT 3;
+
+--Return the top ten contries with the highest average freight overall, in descending order by average freight from the orders table on orders that took place in 1996
+
+SELECT orders.shipcountry, AVG(orders.freight) as freight
+FROM orders
+WHERE orders.orderdate BETWEEN '1/1/1996' and '01/01/1997'
+GROUP BY orders.shipcountry
+ORDER BY freight DESC
+LIMIT 10;
+
+-- -- Return the top three ship countries with the highest average freigh charges using the last 12 months of order data
+--
+-- SELECT orders.shipcountry, AVG(orders.freight) as freight, MAX(orders.orderdate) as latest
+-- FROM orders
+-- HAVING orders.orderdate > latest - interval '1 year'
+-- GROUP BY orders.shipcountry
+-- ORDER BY freight DESC
+-- LIMIT 3;
+
+-- Return an inventory list with employeeid, lastname, orderid, productname and quantity
+
+SELECT orders.employeeid, employees.lastname, orders.orderid, products.productname, order_details.quantity
+FROM orders
+JOIN employees ON orders.employeeid = employees.employeeid
+JOIN order_details ON orders.orderid = order_details.orderid
+JOIN products ON order_details.productid = products.productid
+ORDER BY orders.orderid, products.productid;
