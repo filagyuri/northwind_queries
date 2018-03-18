@@ -66,11 +66,11 @@ ORDER BY order_details.orderid, order_details.productid;
 --Return orders that are late
 SELECT orders.orderid, orders.orderdate, orders.requireddate, orders.shippeddate
 FROM orders
-WHERE orders.shippeddate > orders.requireddate;
+WHERE orders.shippeddate >= orders.requireddate;
 
 --Late Orders
 --Return the sales people that have the most orders arriving late
-SELECT orders.employeeid, employees.lastname, sum(case when orders.shippeddate > orders.requireddate then 1 else 0 end) as lateorders
+SELECT orders.employeeid, employees.lastname, sum(case when orders.shippeddate >= orders.requireddate then 1 else 0 end) as lateorders
 FROM orders
 JOIN employees ON employees.employeeid = orders.employeeid
 GROUP BY orders.employeeid, employees.lastname
@@ -79,8 +79,8 @@ ORDER BY lateorders DESC;
 --Late orders vs total orders
 -- compare the number of orders arriving late for each sales person agains the total number of orders per sales person
 
-SELECT orders.employeeid, employees.lastname, sum(case when orders.shippeddate > orders.requireddate then 1 else 0 end) as lateorders
+SELECT orders.employeeid, employees.lastname, count(*) as allorders, sum(case when orders.shippeddate >= orders.requireddate then 1 else 0 end) as lateorders
 FROM orders
 JOIN employees ON employees.employeeid = orders.employeeid
 GROUP BY orders.employeeid, employees.lastname
-ORDER BY lateorders DESC;
+ORDER BY employeeid;
