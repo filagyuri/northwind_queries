@@ -26,3 +26,12 @@ SELECT products.productid, products.productname, products.unitsinstock, products
 FROM products
 WHERE (products.unitsinstock + products.unitsonorder) <= products.reorderlevel AND products.discontinued = 0
 ORDER BY products.productid ASC;
+
+--Return a list of all customers sorted by region alphabetically, with customers sorted by id in each region and customers with no region at the end
+SELECT customers.customerid, customers.companyname, customers.region,
+  CASE
+  WHEN customers.region is null then 1
+  ELSE 0
+  END
+FROM customers
+ORDER BY customers.region, customers.customerid;
