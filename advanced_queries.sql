@@ -39,3 +39,24 @@ SELECT orders.orderid
 FROM orders
 ORDER BY RANDOM()
 LIMIT 17;
+
+--Orders - accidental double entry
+--Show all the OrderIds with line items that have a quantity of 60 or more, order by order id
+SELECT order_details.orderid
+FROM order_details
+WHERE order_details.quantity >= 60
+GROUP BY order_details.orderid, order_details.quantity
+HAVING count(order_details.orderid) >1;
+
+
+-- Orders - accidental double-entry, derived table
+SELECT order_details.orderid, order_details.productid, order_details.unitprice, order_details.quantity, order_details.discount
+FROM order_details
+JOIN
+  (SELECT order_details.orderid
+  FROM order_details
+  WHERE order_details.quantity >= 60
+  GROUP BY order_details.orderid, order_details.quantity
+  HAVING Count(*) > 1) PotentialProblemOrders
+  ON PotentialProblemOrders.orderid = order_details.orderid
+ORDER BY order_details.orderid, order_details.productid;
