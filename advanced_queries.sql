@@ -113,11 +113,11 @@ WITH customer_sales AS (
 
 SELECT *,
   CASE
-  WHEN totalorderamount BETWEEN 0 and to1000 THEN 'Low'
+  WHEN totalorderamount BETWEEN 0 and 1000 THEN 'Low'
   WHEN totalorderamount BETWEEN 1000 and 5000 THEN 'Medium'
   WHEN totalorderamount BETWEEN 5000 and 10000 THEN 'High'
   WHEN totalorderamount > 10000 THEN 'Very High'
-  END
+  END AS group
 FROM customer_sales
 ORDER BY customerid;
 
@@ -137,6 +137,32 @@ SELECT *,
   WHEN totalorderamount > 1000 AND totalorderamount < 5000 THEN 'Medium'
   WHEN totalorderamount > 5000 AND totalorderamount < 10000 THEN 'High'
   WHEN totalorderamount > 10000 THEN 'Very High'
-  END
+  END AS group
 FROM customer_sales
 ORDER BY customerid;
+
+--Group customers
+--show the percentage of groups in each customer grouping
+
+WITH customergroups AS (
+  WITH customer_sales AS (
+    SELECT sum(order_details.quantity * order_details.unitprice) as totalorderamount
+    FROM customers
+    JOIN orders ON orders.customerid = customers.customerid
+    JOIN order_details ON orders.orderid = order_details.orderid
+    GROUP BY customers.customerid, customers.companyname
+    ORDER BY totalorderamount DESC)
+
+  SELECT *,
+    CASE
+    WHEN totalorderamount > 0 AND totalorderamount < 1000 THEN 'Low'
+    WHEN totalorderamount > 1000 AND totalorderamount < 5000 THEN 'Medium'
+    WHEN totalorderamount > 5000 AND totalorderamount < 10000 THEN 'High'
+    WHEN totalorderamount > 10000 THEN 'Very High'
+    END AS group
+  FROM customer_sales)
+
+SELECT customergroups.group, count(customergroups.group) as totalingroup, count(customergroups.group)/(89)::numeric as percentageingroup
+FROM customergroups
+GROUP BY customergroups.group
+ORDER BY totalingroup DESC;
