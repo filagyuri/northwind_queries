@@ -35,3 +35,11 @@ SELECT customers.customerid, customers.companyname, customers.region,
   END
 FROM customers
 ORDER BY customers.region, customers.customerid;
+
+--Return the three top contries with the highest average freight overall, in descending order by average freight from the orders table
+
+SELECT orders.shipcountry, AVG(orders.freight) as freight
+FROM orders
+GROUP BY orders.shipcountry
+ORDER BY freight DESC
+LIMIT 3;
