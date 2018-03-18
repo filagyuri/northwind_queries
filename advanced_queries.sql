@@ -181,3 +181,16 @@ FULL OUTER JOIN customers ON customers.country = suppliers.country;
 
 
 --Countries with supploers or customers and a count of total suppliers and total customers
+WITH countries AS (
+  SELECT country FROM suppliers
+  UNION
+  SELECT country FROM customers
+  ORDER BY country
+)
+
+SELECT countries.country, count(suppliers.supplierid) as totalsuppliers, count(customers.customerid) as totalcustomers
+FROM suppliers
+FULL JOIN countries ON suppliers.country = countries.country
+FULL JOIN customers ON customers.country = countries.country
+GROUP BY countries.country
+ORDER BY countries.country;
