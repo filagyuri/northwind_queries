@@ -60,3 +60,13 @@ JOIN
   HAVING Count(*) > 1) PotentialProblemOrders
   ON PotentialProblemOrders.orderid = order_details.orderid
 ORDER BY order_details.orderid, order_details.productid;
+
+
+--Late Orders
+--Return orders that are late
+SELECT orders.orderid, orders.orderdate, orders.requireddate, orders.shippeddate
+FROM orders
+WHERE orders.shippeddate > orders.requireddate;
+
+--Late Orders
+--Return the sales people that have the most orders arriving late
