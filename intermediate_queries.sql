@@ -19,3 +19,10 @@ SELECT products.productid, products.productname, products.unitsinstock, products
 FROM products
 WHERE products.unitsinstock < products.reorderlevel
 ORDER BY products.productid ASC;
+
+--Reorder products where unitsinstock plus unitsonorder are less than or equal to reorder level and the discontinued flag is false (0)
+
+SELECT products.productid, products.productname, products.unitsinstock, products.unitsonorder, products.reorderlevel, products.discontinued
+FROM products
+WHERE (products.unitsinstock + products.unitsonorder) <= products.reorderlevel AND products.discontinued = 0
+ORDER BY products.productid ASC;
